@@ -9,53 +9,53 @@ namespace Assignment2Part3.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class BooksController : ControllerBase
     {
         // db
         private MovieBookModel db;
 
-        public MoviesController(MovieBookModel db)
+        public BooksController(MovieBookModel db)
         {
             this.db = db;
         }
 
-        // GET: api/movies
+        // GET: api/books
         [HttpGet]
-        public IEnumerable<Movie> Get()
+        public IEnumerable<Book> Get()
         {
-            return db.Movies.OrderBy(a => a.MovieTitle);
+            return db.Books.OrderBy(a => a.BookTitle);
         }
 
-        // GET: api/movies/4
+        // GET: api/books/4
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            Movie movie = db.Movies.SingleOrDefault(a => a.MovieId == id);
+            Book book = db.Books.SingleOrDefault(a => a.BookId == id);
 
-            if (movie == null)
+            if (book == null)
             {
                 return NotFound();
             }
-            return Ok(movie);
+            return Ok(book);
         }
 
-        // POST: api/movies
+        // POST: api/books
         [HttpPost]
-        public ActionResult Post([FromBody] Movie movie)
+        public ActionResult Post([FromBody] Book book)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Movies.Add(movie);
+            db.Books.Add(book);
             db.SaveChanges();
-            return CreatedAtAction("Post", new { id = movie.MovieId });
+            return CreatedAtAction("Post", new { id = book.BookId });
         }
 
-        // PUT: api/movies/5
+        // PUT: api/books/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Movie movie)
+        public ActionResult Put(int id, [FromBody] Book book)
         {
 
             if (!ModelState.IsValid)
@@ -63,23 +63,23 @@ namespace Assignment2Part3.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Entry(movie).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             db.SaveChanges();
-            return AcceptedAtAction("Put", movie);
+            return AcceptedAtAction("Put", book);
         }
 
-        // DELETE: api/movies/5
+        // DELETE: api/books/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            Movie movie = db.Movies.SingleOrDefault(a => a.MovieId == id);
+            Book book = db.Books.SingleOrDefault(a => a.BookId == id);
 
-            if (movie == null)
+            if (book == null)
             {
                 return NotFound();
             }
 
-            db.Movies.Remove(movie);
+            db.Books.Remove(book);
             db.SaveChanges();
             return Ok();
         }
